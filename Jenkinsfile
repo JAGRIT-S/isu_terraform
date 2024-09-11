@@ -11,7 +11,7 @@ pipeline {
 
  stages {
 
-        stage('Setup gclouds') {
+        stage('Setup gcloud-Part1') {
             steps {
                 script {
                     // Use Git Bash explicitly by invoking it via the BASH environment variable
@@ -22,6 +22,22 @@ pipeline {
                     nohup your_command_here &
                     '
                     """
+                }
+            }
+        }
+
+        stage('Run Command') {
+            steps {
+                script {
+                    bat 'start /B some_command'
+                }
+            }
+        }
+
+        stage('Run Command-Part1') {
+            steps {
+                script {
+                    sh 'nohup some_command &'
                 }
             }
         }
