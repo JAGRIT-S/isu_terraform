@@ -1,0 +1,12 @@
+project_id       = "your-gcp-project-id"
+region           = "asia-south1"
+vpc_name         = "my-vpc"
+vm_name          = "my-vm"
+machine_type     = "e2-medium"
+zone             = "asia-south1-a"
+boot_image       = "projects/ubuntu-os-cloud/global/images/family/ubuntu-2404-lts"
+boot_disk_size   = 20
+bucket_name      = "my-gcs-bucket"
+firewall_name    = "allow-ssh"
+log_sink_name    = "my-log-sink"
+state_bucket_name = "terraform-state-bucket"
