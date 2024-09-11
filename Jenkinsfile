@@ -6,9 +6,26 @@ pipeline {
         //GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-service-account-key') // Jenkins credential ID for the service account key
         //GCP_BUCKET = 'isu_public_bucket' // Replace with your bucket name
         GCP_PROJECT = 'iserveustaging' // Replace with your GCP project ID
+        BASH = 'C:\\Program Files\\Git\\bin\\bash.exe'
     }
 
-    stages {
+ stages {
+
+        stage('Setup gcloud') {
+            steps {
+                script {
+                    // Use Git Bash explicitly by invoking it via the BASH environment variable
+                    sh """
+                    "$BASH" -c '
+                    # Run your commands inside Git Bash
+                    echo "Setting up gcloud"
+                    nohup your_command_here &
+                    '
+                    """
+                }
+            }
+        }
+
         stage('Setup gcloud') {
             steps {
                 // Set up gcloud with the service account credentials and project
