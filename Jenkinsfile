@@ -26,21 +26,19 @@ pipeline {
             }
         }
 
+    
         stage('Run Command') {
             steps {
                 script {
-                    bat 'start /B some_command'
+                    if (isUnix()) {
+                        sh 'nohup your_command &'
+                    } else {
+                        bat 'start /B your_command'
+                    }
                 }
             }
         }
-
-        stage('Run Command-Part1') {
-            steps {
-                script {
-                    sh 'nohup some_command &'
-                }
-            }
-        }
+    
 
         stage('Setup gcloud') {
             steps {
