@@ -11,7 +11,7 @@ pipeline {
 
  stages {
 
-        stage('Setup gcloud') {
+        stage('Setup gclouds') {
             steps {
                 script {
                     // Use Git Bash explicitly by invoking it via the BASH environment variable
