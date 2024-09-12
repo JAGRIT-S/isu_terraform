@@ -12,7 +12,7 @@ resource "google_storage_bucket" "bucket" {
 # Backend Configuration to store state file
 terraform {
   backend "gcs" {
-    bucket  = var.state_bucket_name
+    bucket  = "isu_public_bucket"
     prefix  = "terraform/state"
   }
 }

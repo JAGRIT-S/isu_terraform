@@ -14,6 +14,3 @@ variable "bucket_name" {
   description = "Name of the GCS bucket"
 }
 
-variable "state_bucket_name" {
-  description = "GCS bucket name for storing Terraform state"
-}
