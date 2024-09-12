@@ -1,29 +1,57 @@
 pipeline {
     agent any
-    stages {
-        stage('Setup gcloud') {
-            steps {
-                // Use `bat` for batch commands on Windows
-                bat 'gcloud init'
-            }
+
+  environment {
+   
+    CLOUDSDK_CORE_PROJECT='iserveustaging'
+    GCLOUD_CREDS=credentials('gcloud-creds')   
+}
+
+stages {
+
+   
+    stage('test') {
+      steps {
+        sh '''
+          gcloud version
+          gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"
+          gcloud compute zones list
+        '''
+      }
+    }
+
+    stage('Checkout') {
+        steps {
+            // Checkout the code from SCM (e.g., GitHub)
+            checkout scm
         }
-        stage('Terraform Init') {
-            steps {
-                // Use `bat` for Windows shell execution
-                bat 'terraform init'
-            }
-        }
-        stage('Run Background Command') {
-            steps {
-                // Replace `nohup` with `start /b` for running commands in the background on Windows
-                bat 'start /b gcloud auth login'
+    }
+
+    stage('Terraform Init') {
+        steps {
+            // Initialize Terraform
+            script {
+                sh 'terraform init'
             }
         }
     }
-    post {
-        always {
-            // Clean up resources or perform any required actions after pipeline execution
-            bat 'gcloud auth revoke'
+
+    stage('Terraform Plan') {
+        steps {
+            // Generate and show an execution plan
+            script {
+                sh 'terraform plan -out=tfplan'
+            }
         }
     }
+
+    stage('Terraform Apply') {
+        steps {
+            // Apply the changes required to reach the desired state
+            script {
+                sh 'terraform apply -auto-approve tfplan'
+            }
+        }
+    }
+}
 }
